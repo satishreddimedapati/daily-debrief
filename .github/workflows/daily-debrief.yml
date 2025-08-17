@@ -1,29 +1,22 @@
-name: Daily Debrief 
+name: Daily Debrief
 
 on:
   schedule:
-    # Every 2 minutes from 10:00–10:59 IST (04:30–05:29 UTC)
-    - cron: "30-59/2 4 * * *"
-    # Every 2 minutes from 11:00–11:00 IST (05:00–05:30 UTC)
-    - cron: "0-30/2 5 * * *"
-
-  workflow_dispatch:
+    - cron: "*/2 5-6 * * *"   # Every 2 minutes between 10:40–11:40 IST (5:10–6:10 UTC)
+  workflow_dispatch: # for manual runs
 
 jobs:
-  send-debrief:
+  send-message:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Print Start Log
+        run: echo "::notice:: Workflow triggered at $(date -u)"
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-          
-      - name: Install dependencies
-        run: npm install
+      - name: Run Script
+        run: |
+          echo "::notice:: Starting Daily Debrief script..."
+          # your actual script or API call
+          echo "::notice:: Message sent successfully at $(date -u)"
 
-      - name: Run Daily Debrief
-        run: node index.js
+      - name: Print End Log
+        run: echo "::notice:: Workflow finished at $(date -u)"
