@@ -2,21 +2,23 @@ name: Daily Debrief
 
 on:
   schedule:
-    - cron: "*/2 5-6 * * *"   # Every 2 minutes between 10:40–11:40 IST (5:10–6:10 UTC)
-  workflow_dispatch: # for manual runs
+    # Every 2 minutes between 10:45–11:45 AM IST (convert to UTC → 05:15–06:15 UTC)
+    - cron: "*/2 5 * * *"
+    - cron: "*/2 6 * * *"
 
 jobs:
   send-message:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Start Log
-        run: echo "::notice:: Workflow triggered at $(date -u)"
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Run Script
+      - name: Print run logs
         run: |
-          echo "::notice:: Starting Daily Debrief script..."
-          # your actual script or API call
-          echo "::notice:: Message sent successfully at $(date -u)"
+          echo "✅ Workflow triggered at: $(date -u)"
+          echo "This run is happening every 2 minutes between 10:45–11:45 AM IST."
 
-      - name: Print End Log
-        run: echo "::notice:: Workflow finished at $(date -u)"
+      - name: Send message
+        run: |
+          echo "🚀 Sending scheduled message at $(date -u)"
+          # here you can put your curl / node / python command to send msg
